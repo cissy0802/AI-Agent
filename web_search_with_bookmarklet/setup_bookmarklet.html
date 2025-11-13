@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookmarklet Setup - No Server Required</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .bookmarklet {
+            background: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            margin: 20px 0;
+            cursor: grab;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .bookmarklet:hover {
+            background: #218838;
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        .bookmarklet:active {
+            cursor: grabbing;
+        }
+        .code-block {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border-left: 4px solid #007bff;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .step {
+            background: #e7f3ff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+        .step-number {
+            background: #007bff;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #28a745;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Search Redirector Bookmarklet Setup</h1>
+        <p><strong>No server needed!</strong> This bookmarklet works completely offline and on any website.</p>
+        
+        <div class="success">
+            <strong>✅ Works Without Server:</strong> Once you set up the bookmarklet, you can use it anywhere, anytime - no server, no internet connection to this code needed!
+        </div>
+
+        <h2>Quick Setup (3 Steps)</h2>
+        
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Show your bookmarks bar</strong>
+            <ul>
+                <li><strong>Chrome/Edge:</strong> Press <code>Ctrl+Shift+B</code> (Windows) or <code>Cmd+Shift+B</code> (Mac)</li>
+                <li><strong>Firefox:</strong> Press <code>Ctrl+Shift+B</code> (Windows) or <code>Cmd+Shift+B</code> (Mac)</li>
+                <li>Or: Right-click the top bar → Check "Bookmarks bar" / "Bookmarks Toolbar"</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Drag this button to your bookmarks bar:</strong>
+            <br><br>
+            <a href="javascript:(function(){const engines={google:{param:'q',url:'https://www.google.com/search'},bing:{param:'q',url:'https://www.bing.com/search'},duckduckgo:{param:'q',url:'https://duckduckgo.com/'},yahoo:{param:'p',url:'https://search.yahoo.com/search'}};const host=window.location.hostname.toLowerCase();let engine=null;if(host.includes('google'))engine='google';else if(host.includes('bing'))engine='bing';else if(host.includes('duckduckgo'))engine='duckduckgo';else if(host.includes('yahoo'))engine='yahoo';const param=engine?engines[engine].param:'q';const query=new URLSearchParams(window.location.search).get(param);if(!query){alert('No search query found');return;}const target='duckduckgo';const targetConfig=engines[target];const newUrl=target==='duckduckgo'?`${targetConfig.url}?q=${encodeURIComponent(query)}`:`${targetConfig.url}?${targetConfig.param}=${encodeURIComponent(query)}`;window.location.href=newUrl;})();" 
+               class="bookmarklet" 
+               id="bookmarkletLink">
+                🔍 Search on DuckDuckGo
+            </a>
+            <p><em>Drag the green button above to your bookmarks bar</em></p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Use it!</strong>
+            <ol>
+                <li>Go to Google and search for something (e.g., "javascript tutorial")</li>
+                <li>Click the bookmarklet in your bookmarks bar</li>
+                <li>You'll be redirected to DuckDuckGo with the same search query!</li>
+            </ol>
+        </div>
+
+        <h2>Alternative: Manual Bookmark Creation</h2>
+        <p>If dragging doesn't work, you can create the bookmark manually:</p>
+        
+        <div class="code-block">
+            <strong>Steps:</strong>
+            <ol>
+                <li>Right-click your bookmarks bar → "Add page" or "New bookmark"</li>
+                <li>Name it: <code>Search on DuckDuckGo</code></li>
+                <li>For the URL, paste this code:</li>
+            </ol>
+        </div>
+
+        <div class="code-block">
+            <code id="bookmarkletCode">javascript:(function(){const engines={google:{param:'q',url:'https://www.google.com/search'},bing:{param:'q',url:'https://www.bing.com/search'},duckduckgo:{param:'q',url:'https://duckduckgo.com/'},yahoo:{param:'p',url:'https://search.yahoo.com/search'}};const host=window.location.hostname.toLowerCase();let engine=null;if(host.includes('google'))engine='google';else if(host.includes('bing'))engine='bing';else if(host.includes('duckduckgo'))engine='duckduckgo';else if(host.includes('yahoo'))engine='yahoo';const param=engine?engines[engine].param:'q';const query=new URLSearchParams(window.location.search).get(param);if(!query){alert('No search query found');return;}const target='duckduckgo';const targetConfig=engines[target];const newUrl=target==='duckduckgo'?`${targetConfig.url}?q=${encodeURIComponent(query)}`:`${targetConfig.url}?${targetConfig.param}=${encodeURIComponent(query)}`;window.location.href=newUrl;})();</code>
+        </div>
+        <button onclick="copyBookmarklet()" style="padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            📋 Copy Bookmarklet Code
+        </button>
+
+        <h2>How It Works</h2>
+        <p>The bookmarklet is <strong>self-contained JavaScript</strong> that:</p>
+        <ul>
+            <li>✅ Works on any website (no server needed)</li>
+            <li>✅ Extracts the search query from the current page URL</li>
+            <li>✅ Redirects to DuckDuckGo with the same query</li>
+            <li>✅ Works offline (once saved as a bookmark)</li>
+        </ul>
+
+        <h2>Other Ways to Use (No Server Needed)</h2>
+        
+        <h3>Option 1: Browser Console</h3>
+        <div class="code-block">
+            <ol>
+                <li>Go to any search results page (e.g., Google)</li>
+                <li>Press <code>F12</code> to open Developer Tools</li>
+                <li>Go to Console tab</li>
+                <li>Paste the code from <code>search_query_redirect.js</code></li>
+                <li>Run: <code>redirectToAlternativeSearch('duckduckgo')</code></li>
+            </ol>
+        </div>
+
+        <h3>Option 2: Open HTML File Directly</h3>
+        <div class="code-block">
+            <p>You can open <code>example.html</code> directly in your browser:</p>
+            <ol>
+                <li>Right-click <code>example.html</code></li>
+                <li>Select "Open with" → Your browser</li>
+                <li>The bookmarklet link will work even with <code>file://</code> protocol</li>
+            </ol>
+        </div>
+
+        <div class="warning">
+            <strong>Note:</strong> Some browsers may show security warnings when opening HTML files directly. This is normal - the bookmarklet itself is safe and works once you save it to your bookmarks.
+        </div>
+
+        <h2>Test It Now!</h2>
+        <p>Try it right now:</p>
+        <ol>
+            <li>Open a new tab</li>
+            <li>Go to: <a href="https://www.google.com/search?q=test+query" target="_blank">https://www.google.com/search?q=test+query</a></li>
+            <li>Click your bookmarklet</li>
+            <li>You should be redirected to DuckDuckGo!</li>
+        </ol>
+    </div>
+
+    <script>
+        function copyBookmarklet() {
+            const code = document.getElementById('bookmarkletCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('✅ Bookmarklet code copied! Now paste it into a new bookmark URL field.');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = code;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert('✅ Bookmarklet code copied! Now paste it into a new bookmark URL field.');
+            });
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Query Redirector - Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .code-block {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background: #0056b3;
+        }
+        .bookmarklet-link {
+            background: #28a745;
+        }
+        .bookmarklet-link:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Query Redirector</h1>
+    <p>This JavaScript extracts search queries from URLs and redirects to alternative search engines.</p>
+    
+    <h2>Features</h2>
+    <ul>
+        <li>Extracts search query from current URL (supports Google, Bing, DuckDuckGo, Yahoo, Baidu, Yandex)</li>
+        <li>Constructs new URL for alternative search engine</li>
+        <li>Works as a bookmarklet or standalone script</li>
+    </ul>
+    
+    <h2>Usage Examples</h2>
+    
+    <h3>1. Basic Usage - Extract Query</h3>
+    <div class="code-block">
+        <code>
+// Get the search query from current URL
+const query = getSearchQuery();
+console.log('Search query:', query);
+        </code>
+    </div>
+    
+    <h3>2. Redirect to Alternative Search Engine</h3>
+    <div class="code-block">
+        <code>
+// Redirect to DuckDuckGo with the same query
+redirectToAlternativeSearch('duckduckgo');
+
+// Redirect to Bing with the same query
+redirectToAlternativeSearch('bing');
+        </code>
+    </div>
+    
+    <h3>3. Construct URL Without Redirecting</h3>
+    <div class="code-block">
+        <code>
+const query = getSearchQuery();
+const bingUrl = constructSearchUrl(query, 'bing');
+console.log('Bing URL:', bingUrl);
+        </code>
+    </div>
+    
+    <h3>4. Get Available Alternative Engines</h3>
+    <div class="code-block">
+        <code>
+const alternatives = getAlternativeEngines();
+console.log('Available alternatives:', alternatives);
+        </code>
+    </div>
+    
+    <h2>Test the Functions</h2>
+    <p>Open your browser console and try these functions. First, navigate to a Google search results page, then:</p>
+    <ol>
+        <li>Open Developer Tools (F12)</li>
+        <li>Go to the Console tab</li>
+        <li>Load the script: <code>&lt;script src="search_query_redirect.js"&gt;&lt;/script&gt;</code></li>
+        <li>Try: <code>getSearchQuery()</code> to see the current query</li>
+        <li>Try: <code>redirectToAlternativeSearch('duckduckgo')</code> to redirect</li>
+    </ol>
+    
+    <h2>Bookmarklet</h2>
+    <p>Drag this link to your bookmarks bar to use it as a bookmarklet:</p>
+    <a href="javascript:(function(){const engines={google:{param:'q',url:'https://www.google.com/search'},bing:{param:'q',url:'https://www.bing.com/search'},duckduckgo:{param:'q',url:'https://duckduckgo.com/'},yahoo:{param:'p',url:'https://search.yahoo.com/search'}};const host=window.location.hostname.toLowerCase();let engine=null;if(host.includes('google'))engine='google';else if(host.includes('bing'))engine='bing';else if(host.includes('duckduckgo'))engine='duckduckgo';else if(host.includes('yahoo'))engine='yahoo';const param=engine?engines[engine].param:'q';const query=new URLSearchParams(window.location.search).get(param);if(!query){alert('No search query found');return;}const target='duckduckgo';const targetConfig=engines[target];const newUrl=target==='duckduckgo'?`${targetConfig.url}?q=${encodeURIComponent(query)}`:`${targetConfig.url}?${targetConfig.param}=${encodeURIComponent(query)}`;window.location.href=newUrl;})();" class="button bookmarklet-link">🔍 Search on DuckDuckGo</a>
+    
+    <p><strong>How to use the bookmarklet:</strong></p>
+    <ol>
+        <li>Drag the link above to your bookmarks bar</li>
+        <li>Navigate to a search results page (e.g., Google search)</li>
+        <li>Click the bookmarklet</li>
+        <li>You'll be redirected to DuckDuckGo with the same search query</li>
+    </ol>
+    
+    <h2>Supported Search Engines</h2>
+    <ul>
+        <li><strong>Google:</strong> Parameter: <code>q</code></li>
+        <li><strong>Bing:</strong> Parameter: <code>q</code></li>
+        <li><strong>DuckDuckGo:</strong> Parameter: <code>q</code></li>
+        <li><strong>Yahoo:</strong> Parameter: <code>p</code></li>
+        <li><strong>Baidu:</strong> Parameter: <code>wd</code></li>
+        <li><strong>Yandex:</strong> Parameter: <code>text</code></li>
+    </ul>
+    
+    <script src="search_query_redirect.js"></script>
+</body>
+</html>
+
