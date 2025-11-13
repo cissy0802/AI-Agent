@@ -1,0 +1,50 @@
+CVPR 2024 Conference Papers Summary
+==================================================
+
+Total Papers Extracted: 100
+
+Papers with Abstracts: 100
+Papers with PDF Links: 100
+
+Sample Papers:
+--------------------------------------------------
+
+1. Unmixing Diffusion for Self-Supervised Hyperspectral Image Denoising
+   Authors: Haijin Zeng, Jiezhang Cao, Kai Zhang et al. (6 total)
+   Abstract: Hyperspectral images (HSIs) have extensive applications in various fields such as medicine agriculture and industry. Nevertheless acquiring high signal-to-noise ratio HSI poses a challenge due to narr...
+
+2. Seeing the World through Your Eyes
+   Authors: Hadi Alzayer, Kevin Zhang, Brandon Feng et al. (5 total)
+   Abstract: The reflective nature of the human eye is an under-appreciated source of information about what the world around us looks like. By imaging the eyes of a moving person we capture multiple views of a sc...
+
+3. DPMesh: Exploiting Diffusion Prior for Occluded Human Mesh Recovery
+   Authors: Yixuan Zhu, Ao Li, Yansong Tang et al. (6 total)
+   Abstract: The recovery of occluded human meshes poses challenges for current methods due to the difficulty in extracting effective image features under severe occlusion. In this paper we introduce DPMesh an inn...
+
+4. Ungeneralizable Examples
+   Authors: Jingwen Ye, Xinchao Wang
+   Abstract: The training of contemporary deep learning models heavily relies on publicly available data posing a risk of unauthorized access to online data and raising concerns about data privacy. Current approac...
+
+5. LaneCPP: Continuous 3D Lane Detection using Physical Priors
+   Authors: Maximilian Pittner, Joel Janai, Alexandru P. Condurache
+   Abstract: Monocular 3D lane detection has become a fundamental problem in the context of autonomous driving which comprises the tasks of finding the road surface and locating lane markings. One major challenge ...
+
+6. CityDreamer: Compositional Generative Model of Unbounded 3D Cities
+   Authors: Haozhe Xie, Zhaoxi Chen, Fangzhou Hong et al. (4 total)
+   Abstract: 3D city generation is a desirable yet challenging task since humans are more sensitive to structural distortions in urban environments. Additionally generating 3D cities is more complex than 3D natura...
+
+7. HEAL-SWIN: A Vision Transformer On The Sphere
+   Authors: Oscar Carlsson, Jan E. Gerken, Hampus Linander et al. (7 total)
+   Abstract: High-resolution wide-angle fisheye images are becoming more and more important for robotics applications such as autonomous driving. However using ordinary convolutional neural networks or vision tran...
+
+8. 3D Paintbrush: Local Stylization of 3D Shapes with Cascaded Score Distillation
+   Authors: Dale Decatur, Itai Lang, Kfir Aberman et al. (4 total)
+   Abstract: We present 3D Paintbrush a technique for automatically texturing local semantic regions on meshes via text descriptions. Our method is designed to operate directly on meshes producing texture maps whi...
+
+9. Test-Time Linear Out-of-Distribution Detection
+   Authors: Ke Fan, Tong Liu, Xingyu Qiu et al. (11 total)
+   Abstract: Out-of-Distribution (OOD) detection aims to address the excessive confidence prediction by neural networks by triggering an alert when the input sample deviates significantly from the training distrib...
+
+10. Guided Slot Attention for Unsupervised Video Object Segmentation
+   Authors: Minhyeok Lee, Suhwan Cho, Dogyoon Lee et al. (6 total)
+   Abstract: Unsupervised video object segmentation aims to segment the most prominent object in a video sequence. However the existence of complex backgrounds and multiple foreground objects make this task challe...
