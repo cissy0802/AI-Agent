@@ -1,0 +1,3 @@
+# Instagram downloader - exclude downloaded images
+download_image/downloads/
+
