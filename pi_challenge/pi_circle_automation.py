@@ -23,6 +23,13 @@ try:
 except ImportError:
     WEBDRIVER_MANAGER_AVAILABLE = False
 
+# Try to import PyAutoGUI for moving the real mouse cursor (optional)
+try:
+    import pyautogui
+    PYAUTOGUI_AVAILABLE = True
+except ImportError:
+    PYAUTOGUI_AVAILABLE = False
+
 
 class PiCircleAutomation:
     def __init__(self, headless=False):
@@ -404,7 +411,9 @@ class PiCircleAutomation:
     
     def draw_circle_with_mouse(self, center_x=None, center_y=None, radius=None, num_points=100):
         """
-        Draw a circle by simulating mouse movements.
+        Draw a circle by dispatching mouse events via JavaScript.
+        This simulates mouse movements without requiring actual mouse cursor movement,
+        so it's not affected by your real mouse cursor position.
         Alternative method if JavaScript drawing doesn't work.
         """
         canvas, canvas_width, canvas_height, canvas_location = self.get_canvas_info()
@@ -420,11 +429,13 @@ class PiCircleAutomation:
         if radius is None:
             radius = min(canvas_width, canvas_height) * 0.35
         
-        print(f"Drawing circle with mouse simulation: center=({center_x:.1f}, {center_y:.1f}), radius={radius:.1f}")
+        print(f"Drawing circle with mouse event simulation: center=({center_x:.1f}, {center_y:.1f}), radius={radius:.1f}, points={num_points}")
         
-        actions = ActionChains(self.driver)
+        # Scroll canvas into view
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", canvas)
+        time.sleep(0.5)
         
-        # Calculate circle points
+        # Calculate circle points (these are canvas coordinates, 0,0 at top-left)
         points = []
         for i in range(num_points + 1):
             angle = 2 * math.pi * i / num_points
@@ -432,32 +443,84 @@ class PiCircleAutomation:
             y = center_y + radius * math.sin(angle)
             points.append((x, y))
         
-        # Move to starting point and begin drawing
-        start_x = points[0][0]
-        start_y = points[0][1]
+        # Convert points to JavaScript array format
+        points_js = "[" + ", ".join([f"[{x}, {y}]" for x, y in points]) + "]"
         
-        # Scroll canvas into view
-        self.driver.execute_script("arguments[0].scrollIntoView(true);", canvas)
-        time.sleep(0.5)
+        # Use JavaScript to dispatch mouse events along the circle path
+        # This method is NOT affected by your real mouse cursor position
+        mouse_draw_script = f"""
+        var canvas = arguments[0];
+        var points = {points_js};
+        var rect = canvas.getBoundingClientRect();
         
-        # Click and hold at starting point
-        actions.move_to_element(canvas)
-        actions.move_by_offset(start_x - canvas_width/2, start_y - canvas_height/2)
-        actions.click_and_hold()
+        // Trigger mousedown at start point
+        var startX = points[0][0];
+        var startY = points[0][1];
+        var mouseDownEvent = new MouseEvent('mousedown', {{
+            bubbles: true,
+            cancelable: true,
+            clientX: rect.left + startX,
+            clientY: rect.top + startY,
+            button: 0,
+            buttons: 1
+        }});
+        canvas.dispatchEvent(mouseDownEvent);
         
-        # Draw circle
-        for x, y in points[1:]:
-            offset_x = x - center_x
-            offset_y = y - center_y
-            actions.move_by_offset(offset_x, offset_y)
-            time.sleep(0.02)  # Small delay for smooth drawing
+        // Trigger mousemove events along the circle path
+        // Add small delays between events to simulate natural drawing
+        var i = 1;
+        function dispatchNextMove() {{
+            if (i < points.length) {{
+                var x = points[i][0];
+                var y = points[i][1];
+                
+                var mouseMoveEvent = new MouseEvent('mousemove', {{
+                    bubbles: true,
+                    cancelable: true,
+                    clientX: rect.left + x,
+                    clientY: rect.top + y,
+                    button: 0,
+                    buttons: 1
+                }});
+                canvas.dispatchEvent(mouseMoveEvent);
+                
+                i++;
+                if (i < points.length) {{
+                    setTimeout(dispatchNextMove, 5);  // 5ms delay between points
+                }} else {{
+                    // Last point reached, trigger mouseup
+                    var mouseUpEvent = new MouseEvent('mouseup', {{
+                        bubbles: true,
+                        cancelable: true,
+                        clientX: rect.left + startX,
+                        clientY: rect.top + startY,
+                        button: 0,
+                        buttons: 0
+                    }});
+                    canvas.dispatchEvent(mouseUpEvent);
+                }}
+            }}
+        }}
         
-        actions.release()
-        actions.perform()
+        // Start dispatching moves
+        setTimeout(dispatchNextMove, 10);
+        """
         
-        print("Circle drawn with mouse simulation!")
-        time.sleep(1)
-        return True
+        try:
+            # Execute the script - this will dispatch mouse events asynchronously
+            self.driver.execute_script(mouse_draw_script, canvas)
+            
+            # Wait for all events to be dispatched (num_points * 5ms + buffer)
+            total_time = (num_points * 5) / 1000.0 + 0.5
+            print(f"Drawing circle with mouse events (this will take ~{total_time:.1f} seconds)...")
+            time.sleep(total_time)
+            
+            print("Circle drawn with mouse event simulation!")
+            time.sleep(0.5)
+            return True
+        except Exception as e:
+            print(f"Error drawing with mouse events: {e}")
+            return False
     
     def wait_for_result(self, timeout=10):
         """Wait for the game to calculate and display the result."""

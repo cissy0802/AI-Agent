@@ -93,11 +93,23 @@ python pi_circle_automation.py --help
 5. Draws a smooth, mathematically perfect circle
 
 ### Mouse Simulation Method
+**Note:** This method uses JavaScript to dispatch mouse events (mousedown, mousemove, mouseup) to simulate drawing. Unlike using ActionChains, this method is **NOT affected by your real mouse cursor position** - you can have your mouse anywhere on the screen and it will still work correctly.
+
+**How it works:**
 1. Opens the game page in Chrome
 2. Calculates circle points using parametric equations
-3. Simulates mouse movements by moving through each point
-4. Maintains mouse button press throughout the drawing
-5. Creates a smooth circle through mouse events
+3. Dispatches mouse events via JavaScript along the circle path
+4. Triggers mousedown at the start point
+5. Dispatches mousemove events at each point with small delays (simulates natural drawing speed)
+6. Triggers mouseup at the end point
+
+**Advantages:**
+- Not affected by your real mouse cursor position
+- Dispatches proper mouse events that games can recognize
+- Simulates natural drawing speed with delays between events
+- Works consistently regardless of where your mouse is
+
+**When to use:** Only if the JavaScript drawing method (`--method js`) doesn't work and the game requires mouse event tracking. The default `--method js` is recommended for most cases.
 
 ## Achieving S-Rank
 
